@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>QRN testing frontend</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <script src="js/pixi/pixi.min.js"></script>
@@ -12,14 +13,101 @@
   <div align="center">
     <canvas id="test-canvas" width="512" height="384"></canvas>
   </div>
+  <div id="formbase">
+    <h2>this is a nice test text</h2>
+    <div class="fiBase">
+      <div class="fiLabel">
+        Test duration
+      </div>
+      <div class="fiDesc">
+        Test duration in minutes
+      </div>
+      <div class="fiControl">
+        <input type="range" id="duration" min="30" max="600" step="30" value="120" />
+      </div>
+      <div class="fiValue" id ="durationValue">
+        00m:10s 
+      </div>
+      
+    </div>
+    <div class="fiBase">
+      <div class="fiLabel">
+        QRN bandwith
+      </div>
+      <div class="fiDesc">
+        Processing bandwith of the QRN bits in bits/sec
+      </div>
+      <div class="fiControl">
+        <input type="range" id="bandwidth"  min="16" max="2048" step="16" value="16" />
+      </div>
+      <div class="fiValue" id ="bandwidthValue">
+        16 b/sec
+      </div>
+    </div>
+
+    <div class="fiBase">
+      <div class="fiDesc" id="transfervalue">
+        Processing bandwith of the QRN bits in bits/sec
+      </div>
+    </div>
+    <div class="fiBase">
+      <div class="fiControl">
+        <input type="button" id="confirmButton" value="Start test" />
+      </div>
+    </div>
+  </div>
   <script type="text/javascript">
     $(window).on("load", function() {
       app = new App('test-canvas');
       app.init();
-
+      $('#test-canvas').hide();
       $(window).resize(app.onResize.bind(app));
+      $("#bandwidth").on("input change", function() {
+        updateBandwidth();
+        updateTrasfer();
+      });
+      $("#duration").on("input change", function() {
+        updateDuration();
+        updateTrasfer();
+      });
+      $("#confirmButton").click(startTest);
+
+      updateDuration();
+      updateBandwidth();
+      updateTrasfer();
+
+
+      function updateDuration() {
+        const allSecs = parseInt($("#duration").val(),10);
+        const mins = Math.floor(allSecs / 60);
+        const minsStr = mins < 10 ? '0' + mins : String(mins);
+        const secs = allSecs % 60;
+        const secsStr = secs < 10 ? '0' + secs : String(secs);
+        $("#durationValue").html(`${minsStr}m:${secs}s`);
+      }
+
+      function updateBandwidth() {
+        $("#bandwidthValue").html(`${$("#bandwidth").val()} bits/sec`);
+      }
+
+      function updateTrasfer() {
+        const bw = parseInt($("#bandwidth").val(),10);
+        const duration = parseInt($("#duration").val(),10);
+        const transfer = (bw * duration) / 8;
+        $("#transfervalue").html(`${transfer} QRN bytes will be downloaded`)
+      }
+
+      function startTest() {
+        const bw = parseInt($("#bandwidth").val(),10);
+        const duration = parseInt($("#duration").val(),10);
+        const transfer = (bw * duration) / 8;
+        $.get(`http://mvezer.net:3000/randomNumbers/${transfer}`, onQrnLoad);
+      }
+
+      function onQrnLoad(qrnData) {
+        console.log(qrnData);
+      }
     });
-    
   </script>
 </body>
 </html>

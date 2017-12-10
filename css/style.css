@@ -1,3 +1,40 @@
 * { margin:0; padding:0; } /* to remove the top and left whitespace */
-html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+html, body { width:100%; height:100%; text-align: center;
+	font-family: helvetica, arial;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6bdbe5+0,2989d8+57,7db9e8+100 */
+background: #6bdbe5; /* Old browsers */
+background: -moz-linear-gradient(top,  #6bdbe5 0%, #2989d8 57%, #7db9e8 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #6bdbe5 0%,#2989d8 57%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #6bdbe5 0%,#2989d8 57%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6bdbe5', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+
+} /* just to be sure these are full screen*/
 canvas { display:block; } /* To remove the scrollbars */
+
+#formbase {
+	display: inline-block;
+	height: 100%;
+	max-width: 900px;
+	background-color: rgba(30,30,30,0.3);
+	padding-top: 9em;
+	padding-right: 2em;
+	padding-left: 2em;
+}
+
+.fiBase {
+	width:100%;
+	padding: 1em 0;
+}
+
+.fiLabel {
+	font-size: 1.2em;
+	padding: 1em 0;
+}
+
+.fiDesc {
+	font-size: 0.9em;
+}
+
+.fiControl {
+	font-size: 1.4em;
+}
